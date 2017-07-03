@@ -62,13 +62,15 @@ class Keyframe<T> {
 
   @FloatRange(from = 0f, to = 1f)
   float getStartProgress() {
-    return startFrame / composition.getDurationFrames();
+    return (startFrame  - composition.getStartFrame()) / composition.getDurationFrames();
   }
 
   @FloatRange(from = 0f, to = 1f)
   float getEndProgress() {
-    //noinspection Range
-    return endFrame == null ? 1f : endFrame / composition.getDurationFrames();
+    if (endFrame == null) {
+      return 1f;
+    }
+    return 1 - (composition.getEndFrame() - endFrame) / composition.getDurationFrames();
   }
 
   boolean isStatic() {
